@@ -15,7 +15,25 @@
 		// play the audio track
 		audio.currentTime = 0;
 		audio.play();
+
+		let key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+		key.classList.add('playing');
+	}
+
+	function removePlayingClass(e) {
+		// listen for a CSS transition to finish and then reset the element by removing the playing class
+
+		if (e.propertyName == 'transform') {
+			return;
+		} else {
+			console.log('do some stuff, transition is done.');
+			e.currentTarget.classList.remove('playing');
+		}
 	}
 
 	window.addEventListener('keydown', playDrumSound);
+
+	const keys = Array.from(document.querySelectorAll('.key'));
+
+	keys.forEach(key => key.addEventListener('transitionend', removePlayingClass));
 })();
